@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { cleanObject } from "../../utils";
+import { cleanObject, useDebounce } from "../../utils";
 import { useHttpWithToken } from "../../utils/http";
 import { List } from "./List";
 import { SearchPanel } from "./SearchPanel";
@@ -15,13 +15,14 @@ export const ProjectView = () => {
   });
   const [users, setUsers] = useState([]);
   const [list, setList] = useState([]);
+  const debounceParams = useDebounce(params, 200);
 
   // 获取projects
   useEffect(() => {
     request("projects", { data: cleanObject(params) }).then((data) => {
       setList(data);
     });
-  }, [params]);
+  }, [debounceParams]);
 
   // 获取users
   useEffect(() => {
