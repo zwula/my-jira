@@ -4,12 +4,14 @@
 */
 
 import { useAuth } from "./context/AuthContext";
+import { ProjectView } from "./views/projects";
 
 const AuthorizedApp = () => {
   const { user } = useAuth();
   return (
     <div>
       已登录，登录账号为{user?.name},token值为{user?.token}
+      <ProjectView />
     </div>
   );
 };

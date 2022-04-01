@@ -20,7 +20,7 @@ export const http = (
 ) => {
   const config = {
     method: "GET",
-    header: {
+    headers: {
       "Content-Type": data ? "application/json" : "",
       Authorization: token ? `Bearer ${token}` : "",
     },
@@ -32,11 +32,13 @@ export const http = (
   } else {
     config.body = JSON.stringify(data);
   }
+
   return fetch(`${baseUrl}/${endpoint}`, config).then(async (response) => {
     if (response.status === 401) {
       // 重新登录
       auth.logout();
       window.location.reload();
+      console.log("为什么会重新登录呀");
       return Promise.reject({ message: "请重新登录" });
     }
     const data = await response.json();
@@ -52,7 +54,7 @@ export const http = (
 export const useHttpWithToken = () => {
   const { user } = useAuth();
   // 使用该自定义hook的时候，肯定是已登录的状态，因此可以使用AuthProvider中传递过来的user中的token字段
-  return (endpoint: string, customConfig: customConfig) => {
+  return (endpoint: string, customConfig?: customConfig) => {
     // 组装请求配置
     return http(endpoint, { ...customConfig, token: user?.token });
   };
