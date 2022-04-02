@@ -4,16 +4,35 @@
         共享那些对于当前项目整体组件树而言是“全局”的数据,如权限验证token等,向所有被包裹的子组件(包括App根组件)传递需要传递的数据
 */
 
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import * as auth from "../auth-provider";
+import { http } from "../utils/http";
 
 const AuthContext = createContext<{
   user: auth.User | null;
   login: (info: auth.RegisterOrLoginInfo) => Promise<void>;
   register: (info: auth.RegisterOrLoginInfo) => Promise<void>;
-  logout: (info: auth.RegisterOrLoginInfo) => Promise<void>;
+  logout: () => Promise<void>;
 } | null>(null);
 AuthContext.displayName = "AuthContext";
+
+// 在组件被渲染的过程中执行一次
+const initUser = async () => {
+  let user = null;
+  // 检验当前浏览器localStorage中是否存在token，如果存在则说明此时用户处于登录状态，需要初始化user的值
+  const token = auth.getToken();
+  if (token) {
+    const data = await http("me", { token });
+    user = data.user;
+  }
+  return user;
+};
 
 // 定义包裹组件
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -37,6 +56,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // 这里的login需要完成对user的初始化
     return auth.logout().then(() => setUser(null));
   };
+
+  useEffect(() => {
+    initUser().then((user) => {
+      setUser(user);
+    });
+  }, []);
 
   // 向被包裹的子组件传递定义好的数据
   return (
