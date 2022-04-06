@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { loadDevTools } from "jira-dev-tool";
 import { AppProvider } from "./context";
+// 自定义antd的主题变量
 import "antd/dist/antd.less";
 
 loadDevTools(() =>

@@ -3,6 +3,7 @@
 
 */
 
+import { Card } from "antd";
 import { useState } from "react";
 import Login from "./Login";
 import Register from "./Register";
@@ -10,15 +11,22 @@ import Register from "./Register";
 const UnauthorizedApp = () => {
   const [isRegister, setIsRegister] = useState(false);
 
-  const handelToogle = () => {
+  const handelToggle = () => {
     setIsRegister(!isRegister);
   };
   return (
-    <div>
-      <div>{isRegister ? <Login /> : <Register />}</div>
-      <button onClick={handelToogle}>
-        切换至{isRegister ? "注册" : "登录"}
-      </button>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <Card>
+        <div>{isRegister ? <Register /> : <Login />}</div>
+        <button onClick={handelToggle}>
+          切换至{isRegister ? "登录" : "注册"}
+        </button>
+      </Card>
     </div>
   );
 };

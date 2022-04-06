@@ -27,7 +27,6 @@ export const ProjectView = () => {
   // 获取users
   useEffect(() => {
     request("users").then((data) => {
-      console.log("请求users接口", data);
       setUsers(data);
     });
   }, []);

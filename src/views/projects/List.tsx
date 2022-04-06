@@ -1,6 +1,7 @@
+import { Table } from "antd";
 import { User } from "../../auth-provider";
 
-interface ProjectList {
+interface Project {
   created: number;
   id: number;
   name: string;
@@ -10,32 +11,35 @@ interface ProjectList {
 }
 
 interface ComponentProps {
-  list: ProjectList[];
+  list: Project[];
   users: User[];
 }
 
 export const List = ({ list, users }: ComponentProps) => {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>名称</th>
-          <th>负责人</th>
-        </tr>
-      </thead>
-      <tbody>
-        {list.map((item, index) => {
-          return (
-            <tr key={item.id}>
-              <td>{item.name}</td>
-              <td>
-                {users.find((user) => user.id === item.personId)?.name ||
+    <Table
+      pagination={false}
+      columns={[
+        {
+          title: "项目名称",
+          dataIndex: "name",
+          key: "name",
+          sorter: (a, b) => a.name.localeCompare(b.name),
+        },
+        {
+          title: "负责人",
+          key: "personInCharge",
+          render: (value, project, index) => {
+            return (
+              <span>
+                {users.find((user) => user.id === project.personId)?.name ||
                   "未知"}
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+              </span>
+            );
+          },
+        },
+      ]}
+      dataSource={list}
+    ></Table>
   );
 };

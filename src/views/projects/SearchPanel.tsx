@@ -1,3 +1,4 @@
+import { Input, Select } from "antd";
 import { User } from "../../auth-provider";
 
 interface componentProps {
@@ -12,29 +13,29 @@ interface componentProps {
 export const SearchPanel = ({ params, setParams, users }: componentProps) => {
   return (
     <div>
-      <input
-        type="text"
+      <Input
         value={params.name}
         onChange={(e) => {
           setParams({ ...params, name: e.target.value });
         }}
       />
 
-      <select
+      <Select
         value={params.personId}
-        onChange={(e) => {
-          setParams({ ...params, personId: e.target.value });
+        onChange={(value) => {
+          console.log("value", value);
+          setParams({ ...params, personId: value });
         }}
       >
-        <option value={""}>负责人</option>
+        <Select.Option value={""}>负责人</Select.Option>
         {users.map((user, index) => {
           return (
-            <option value={user.id} key={user.id}>
+            <Select.Option value={user.id} key={user.id}>
               {user.name}
-            </option>
+            </Select.Option>
           );
         })}
-      </select>
+      </Select>
     </div>
   );
 };
