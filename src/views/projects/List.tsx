@@ -1,5 +1,6 @@
 import { Table } from "antd";
 import { User } from "../../auth-provider";
+import dayjs from "dayjs";
 
 interface Project {
   created: number;
@@ -34,6 +35,23 @@ export const List = ({ list, users }: ComponentProps) => {
               <span>
                 {users.find((user) => user.id === project.personId)?.name ||
                   "未知"}
+              </span>
+            );
+          },
+        },
+        {
+          title: "部门",
+          dataIndex: "organization",
+        },
+        {
+          title: "创建时间",
+          // dataIndex: "created",
+          render: (value, project, index) => {
+            return (
+              <span>
+                {project.created
+                  ? dayjs(project.created).format("YYYY-MM-DD")
+                  : "无"}
               </span>
             );
           },

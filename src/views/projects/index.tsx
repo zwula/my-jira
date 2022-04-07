@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { cleanObject, useDebounce } from "../../utils";
 import { useHttpWithToken } from "../../utils/http";
@@ -33,9 +34,14 @@ export const ProjectView = () => {
 
   // 渲染数据
   return (
-    <div>
+    <Container>
+      <h1>项目列表</h1>
       <SearchPanel params={params} setParams={setParams} users={users} />
       <List list={list} users={users} />
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  padding: 3.2rem;
+`;
