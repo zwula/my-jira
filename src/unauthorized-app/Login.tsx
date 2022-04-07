@@ -1,6 +1,8 @@
 import { useAuth } from "../context/AuthContext";
 import { Button, Form, Input } from "antd";
 import { RegisterOrLoginInfo } from "../auth-provider";
+import styled from "@emotion/styled";
+import { CssLongButton } from ".";
 
 const Login = () => {
   const { login } = useAuth();
@@ -11,7 +13,7 @@ const Login = () => {
   return (
     <Form onFinish={handelSubmit} autoComplete="off">
       <Form.Item
-        label="用户名"
+        // label="用户名"
         name="username"
         rules={[{ required: true, message: "请输入用户名！" }]}
       >
@@ -19,7 +21,7 @@ const Login = () => {
       </Form.Item>
 
       <Form.Item
-        label="密码"
+        // label="密码"
         name="password"
         rules={[{ required: true, message: "请输入密码！" }]}
       >
@@ -27,9 +29,9 @@ const Login = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button htmlType="submit" type="primary">
+        <CssLongButton htmlType="submit" type="primary">
           登录
-        </Button>
+        </CssLongButton>
       </Form.Item>
     </Form>
   );
