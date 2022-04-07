@@ -4,6 +4,7 @@
 */
 
 import styled from "@emotion/styled";
+import { Row } from "./components/lib";
 import { useAuth } from "./context/AuthContext";
 import { ProjectView } from "./views/projects";
 
@@ -16,11 +17,11 @@ const AuthorizedApp = () => {
   return (
     <div>
       <Container>
-        <PageHeader>
-          <HeaderLeft>
-            <h3>logo</h3>
-            <h3>项目</h3>
-            <h3>用户</h3>
+        <PageHeader between={true}>
+          <HeaderLeft marginRight={true}>
+            <h2>logo</h2>
+            <h2>项目</h2>
+            <h2>用户</h2>
           </HeaderLeft>
           <HeaderRight>
             <button onClick={handelLogout}>注销登录</button>
@@ -42,17 +43,9 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-const PageHeader = styled.header`
-  /* 定义区域名 */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
+const PageHeader = styled(Row)``;
 
-const HeaderLeft = styled.div`
-  display: flex;
-  align-items: center;
-`;
+const HeaderLeft = styled(Row)``;
 
 const HeaderRight = styled.div``;
 
