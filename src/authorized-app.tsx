@@ -8,23 +8,46 @@ import { Row } from "./components/lib";
 import { useAuth } from "./context/AuthContext";
 import { ProjectView } from "./views/projects";
 
+import { ReactComponent as SoftwareLogo } from "./assets/software-logo.svg";
+import { Dropdown, Menu } from "antd";
+
 const AuthorizedApp = () => {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const handelLogout = () => {
     logout();
   };
+
+  const menu = (
+    <Menu>
+      <Menu.Item key={"logout"}>
+        <a href="" onClick={handelLogout}>
+          登出
+        </a>
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <div>
       <Container>
         <PageHeader between={true}>
           <HeaderLeft marginRight={true}>
-            <h2>logo</h2>
+            {/* <img src={softwareLogo} alt="" /> */}
+            <SoftwareLogo width={"18rem"} color={"rgb(38,132,255)"} />
             <h2>项目</h2>
             <h2>用户</h2>
           </HeaderLeft>
           <HeaderRight>
-            <button onClick={handelLogout}>注销登录</button>
+            <Dropdown overlay={menu}>
+              <a
+                href=""
+                onClick={(e) => {
+                  e.preventDefault();
+                }}
+              >
+                Hi, {user?.name}
+              </a>
+            </Dropdown>
           </HeaderRight>
         </PageHeader>
         <PageMain>
@@ -43,7 +66,11 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-const PageHeader = styled(Row)``;
+const PageHeader = styled(Row)`
+  padding: 3.2rem;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+  z-index: 1;
+`;
 
 const HeaderLeft = styled(Row)``;
 
