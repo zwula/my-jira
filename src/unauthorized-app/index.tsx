@@ -27,9 +27,13 @@ const UnauthorizedApp = () => {
         <CssTitle>{isRegister ? "请注册" : "请登录"}</CssTitle>
         <div>{isRegister ? <Register /> : <Login />}</div>
         <Divider />
-        <a onClick={handelToggle}>
+        {/* <a onClick={handelToggle}>
           {isRegister ? "已经有账号了? 直接登录" : "没有账号? 注册新账号"}
-        </a>
+        </a> */}
+        <Button type={"link"} onClick={handelToggle}>
+          {" "}
+          {isRegister ? "已经有账号了? 直接登录" : "没有账号? 注册新账号"}
+        </Button>
       </CssShadowCard>
     </CssContainer>
   );

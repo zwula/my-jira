@@ -34,14 +34,14 @@ export const ProjectView = () => {
 
   // 渲染数据
   return (
-    <Container>
+    <CssContainer>
       <h1>项目列表</h1>
       <SearchPanel params={params} setParams={setParams} users={users} />
       <List list={list} users={users} />
-    </Container>
+    </CssContainer>
   );
 };
 
-const Container = styled.div`
+const CssContainer = styled.div`
   padding: 3.2rem;
 `;

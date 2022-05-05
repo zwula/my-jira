@@ -9,7 +9,7 @@ import { useAuth } from "./context/AuthContext";
 import { ProjectView } from "./views/projects";
 
 import { ReactComponent as SoftwareLogo } from "./assets/software-logo.svg";
-import { Dropdown, Menu } from "antd";
+import { Button, Dropdown, Menu } from "antd";
 
 const AuthorizedApp = () => {
   const { logout, user } = useAuth();
@@ -20,9 +20,12 @@ const AuthorizedApp = () => {
   const menu = (
     <Menu>
       <Menu.Item key={"logout"}>
-        <a href="" onClick={handelLogout}>
+        {/* <a href="" onClick={handelLogout}>
           登出
-        </a>
+        </a> */}
+        <Button type={"link"} onClick={handelLogout}>
+          登出
+        </Button>
       </Menu.Item>
     </Menu>
   );
@@ -39,14 +42,16 @@ const AuthorizedApp = () => {
           </HeaderLeft>
           <HeaderRight>
             <Dropdown overlay={menu}>
-              <a
+              {/* 使用a标签时，需要使用合法的href链接，否则会报警告，为了绕开警告可以使用antd中的type为link的Button */}
+              {/* <a
                 href=""
                 onClick={(e) => {
                   e.preventDefault();
                 }}
               >
                 Hi, {user?.name}
-              </a>
+              </a> */}
+              <Button type={"link"}>Hi, {user?.name}</Button>
             </Dropdown>
           </HeaderRight>
         </PageHeader>

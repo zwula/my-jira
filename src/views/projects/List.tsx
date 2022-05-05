@@ -19,6 +19,7 @@ interface ComponentProps {
 export const List = ({ list, users }: ComponentProps) => {
   return (
     <Table
+      rowKey={"id"}
       pagination={false}
       columns={[
         {
@@ -41,11 +42,12 @@ export const List = ({ list, users }: ComponentProps) => {
         },
         {
           title: "部门",
+          key: "organization",
           dataIndex: "organization",
         },
         {
           title: "创建时间",
-          // dataIndex: "created",
+          key: "created",
           render: (value, project, index) => {
             return (
               <span>
