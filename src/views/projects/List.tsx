@@ -1,22 +1,21 @@
-import { Table } from "antd";
+import { Table, TableProps } from "antd";
 import { User } from "../../auth-provider";
 import dayjs from "dayjs";
 
-interface Project {
+export interface Project {
   created: number;
   id: number;
   name: string;
-  personId: number;
+  personId: string | number;
   organization: string;
   ownerId: number;
 }
 
-interface ComponentProps {
-  list: Project[];
+interface ComponentProps extends TableProps<Project> {
   users: User[];
 }
 
-export const List = ({ list, users }: ComponentProps) => {
+export const List = ({ users, ...props }: ComponentProps) => {
   return (
     <Table
       rowKey={"id"}
@@ -59,7 +58,7 @@ export const List = ({ list, users }: ComponentProps) => {
           },
         },
       ]}
-      dataSource={list}
+      {...props}
     ></Table>
   );
 };
