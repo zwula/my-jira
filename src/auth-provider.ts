@@ -33,6 +33,7 @@ export const setToken = ({ user }: { user: User }) => {
 export interface RegisterOrLoginInfo {
   username: string;
   password: string;
+  cpassword?: string;
 }
 // 登录账号
 export const login = (info: RegisterOrLoginInfo) => {
@@ -43,11 +44,10 @@ export const login = (info: RegisterOrLoginInfo) => {
     },
     body: JSON.stringify(info),
   }).then(async (response) => {
-    console.log("Login", response);
     if (response.ok) {
       return setToken(await response.json());
     } else {
-      return Promise.reject(info);
+      return Promise.reject(await response.json());
     }
   });
 };
@@ -60,11 +60,10 @@ export const register = (info: RegisterOrLoginInfo) => {
     },
     body: JSON.stringify(info),
   }).then(async (response) => {
-    console.log("Register", response);
     if (response.ok) {
       return setToken(await response.json());
     } else {
-      return Promise.reject(info);
+      return Promise.reject(await response.json());
     }
   });
 };

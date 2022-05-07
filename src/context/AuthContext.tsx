@@ -13,6 +13,7 @@ import {
 } from "react";
 import * as auth from "../auth-provider";
 import { http } from "../utils/http";
+import { useAsync } from "../utils/use-async";
 
 const AuthContext = createContext<{
   user: auth.User | null;
@@ -37,7 +38,14 @@ const initUser = async () => {
 // 定义包裹组件
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // 定义要想被包裹组件传递的数据,后续我们需要在其他组件中频繁的使用和user相关的信息，因此我们此时将与user相关的信息和操作一并定义并传递给被包裹的组件
-  const [user, setUser] = useState<auth.User | null>(null);
+  // const [user, setUser] = useState<auth.User | null>(null);
+  const {
+    data: user,
+    setData: setUser,
+    runAsync,
+    isIdle,
+    isLoading,
+  } = useAsync<auth.User | null>();
 
   const login = (info: auth.RegisterOrLoginInfo) => {
     // auth-provider中的login完成了对token的存储
@@ -58,10 +66,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    initUser().then((user) => {
-      setUser(user);
-    });
+    runAsync(initUser());
   }, []);
+
+  // if (isIdle || isLoading) {
+  //   return <h1>111</h1>;
+  // }
 
   // 向被包裹的子组件传递定义好的数据
   return (

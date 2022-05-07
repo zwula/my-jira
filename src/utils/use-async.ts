@@ -13,12 +13,21 @@ const defaultInitialState: State<null> = {
   status: "idle",
 };
 
-export const useAsync = <D>(initialState?: State<D>) => {
+const defaultInitialConfig = {
+  throwError: false,
+};
+
+export const useAsync = <D>(
+  initialState?: State<D>,
+  initialConfig?: typeof defaultInitialConfig
+) => {
   // 设置最初始的状态
   const [state, setState] = useState<State<D>>({
     ...defaultInitialState,
     ...initialState,
   });
+
+  const config = { ...defaultInitialConfig, ...initialConfig };
 
   const setData = (data: D) =>
     setState({
@@ -39,15 +48,21 @@ export const useAsync = <D>(initialState?: State<D>) => {
       throw new Error("请传入Promise类型数据");
     }
     setState({ ...state, status: "loading" });
-    return promise
-      .then((data) => {
-        setData(data);
-        return data;
-      })
-      .catch((error) => {
-        setError(error);
-        return error;
-      });
+    return (
+      promise
+        .then((data) => {
+          setData(data);
+          return data;
+        })
+        // catch会消化异常，如果不再次主动抛出，外面是接收不到异常的
+        .catch((error) => {
+          setError(error);
+          if (config.throwError) {
+            return Promise.reject(error);
+          }
+          return error;
+        })
+    );
   };
 
   return {
@@ -55,9 +70,9 @@ export const useAsync = <D>(initialState?: State<D>) => {
     isLoading: state.status === "loading",
     isError: state.status === "error",
     isSuccess: state.status === "success",
+    runAsync,
     setData,
     setError,
-    runAsync,
     ...state,
   };
 };

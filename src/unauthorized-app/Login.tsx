@@ -3,12 +3,18 @@ import { Button, Form, Input } from "antd";
 import { RegisterOrLoginInfo } from "../auth-provider";
 import styled from "@emotion/styled";
 import { CssLongButton } from ".";
+import { useAsync } from "../utils/use-async";
 
-const Login = () => {
+const Login = ({ onError }: { onError: (error: Error) => void }) => {
   const { login } = useAuth();
+  const { runAsync, isLoading } = useAsync(undefined, { throwError: true });
 
-  const handelSubmit = (values: RegisterOrLoginInfo) => {
-    login(values);
+  const handelSubmit = async (values: RegisterOrLoginInfo) => {
+    try {
+      await runAsync(login(values));
+    } catch (error) {
+      onError(error as Error);
+    }
   };
   return (
     <Form onFinish={handelSubmit} autoComplete="off">
@@ -29,7 +35,7 @@ const Login = () => {
       </Form.Item>
 
       <Form.Item>
-        <CssLongButton htmlType="submit" type="primary">
+        <CssLongButton htmlType="submit" type="primary" loading={isLoading}>
           登录
         </CssLongButton>
       </Form.Item>

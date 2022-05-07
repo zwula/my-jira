@@ -3,7 +3,7 @@
 
 */
 
-import { Button, Card, Divider } from "antd";
+import { Button, Card, Divider, Typography } from "antd";
 import { useState } from "react";
 import Login from "./Login";
 import Register from "./Register";
@@ -15,8 +15,10 @@ import right from "../assets/right.svg";
 
 const UnauthorizedApp = () => {
   const [isRegister, setIsRegister] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
   const handelToggle = () => {
+    setError(null);
     setIsRegister(!isRegister);
   };
   return (
@@ -25,7 +27,16 @@ const UnauthorizedApp = () => {
       <CssBackground />
       <CssShadowCard>
         <CssTitle>{isRegister ? "请注册" : "请登录"}</CssTitle>
-        <div>{isRegister ? <Register /> : <Login />}</div>
+        {error ? (
+          <Typography.Text type="danger">{error.message}</Typography.Text>
+        ) : null}
+        <div>
+          {isRegister ? (
+            <Register onError={setError} />
+          ) : (
+            <Login onError={setError} />
+          )}
+        </div>
         <Divider />
         {/* <a onClick={handelToggle}>
           {isRegister ? "已经有账号了? 直接登录" : "没有账号? 注册新账号"}
