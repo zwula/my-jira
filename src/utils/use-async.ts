@@ -39,7 +39,7 @@ export const useAsync = <D>(
     setState({
       data: null,
       error,
-      status: "success",
+      status: "error",
     });
 
   // runAsync用来触发异步请求

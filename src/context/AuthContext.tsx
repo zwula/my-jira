@@ -12,6 +12,7 @@ import {
   useState,
 } from "react";
 import * as auth from "../auth-provider";
+import { ErrorPage, LoadingPage } from "../components/lib";
 import { http } from "../utils/http";
 import { useAsync } from "../utils/use-async";
 
@@ -43,6 +44,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     data: user,
     setData: setUser,
     runAsync,
+    isError,
+    error,
     isIdle,
     isLoading,
   } = useAsync<auth.User | null>();
@@ -69,11 +72,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     runAsync(initUser());
   }, []);
 
+  // 不知道什么原因【待完善】
   // if (isIdle || isLoading) {
-  //   return <h1>111</h1>;
+  //   return <LoadingPage />;
   // }
+  if (isError) {
+    return <ErrorPage error={error} />;
+  }
 
   // 向被包裹的子组件传递定义好的数据
+
   return (
     <AuthContext.Provider value={{ user, login, register, logout }}>
       {children}

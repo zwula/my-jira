@@ -38,14 +38,13 @@ export const http = (
       // 重新登录
       auth.logout();
       window.location.reload();
-      console.log("为什么会重新登录呀");
       return Promise.reject({ message: "请重新登录" });
     }
     const data = await response.json();
     if (response.ok) {
       return data;
     } else {
-      return Promise.reject(data);
+      return Promise.reject(await response.json());
     }
   });
 };
