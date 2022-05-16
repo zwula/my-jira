@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Typography } from "antd";
 import { useState } from "react";
-import { useDebounce } from "../../utils";
+import { useDebounce, useDocumentTitle } from "../../utils";
 import { useProject } from "../../utils/use-project";
 import { useUsers } from "../../utils/use-users";
 import { List } from "./List";
@@ -9,6 +9,7 @@ import { SearchPanel } from "./SearchPanel";
 
 // 登录之后默认显示的页面
 export const ProjectView = () => {
+  useDocumentTitle("项目列表", false);
   // projects接口，根据name和personId进行查询
   const [params, setParams] = useState({
     name: "",
@@ -64,14 +65,20 @@ export const ProjectView = () => {
 
   // 渲染数据
   return (
-    <CssContainer>
-      <h1>项目列表</h1>
-      <SearchPanel params={params} setParams={setParams} users={users || []} />
-      {error ? (
-        <Typography.Text type="danger">{error.message}</Typography.Text>
-      ) : null}
-      <List dataSource={list || []} users={users || []} loading={isLoading} />
-    </CssContainer>
+    <div>
+      <CssContainer>
+        <h1>项目列表</h1>
+        <SearchPanel
+          params={params}
+          setParams={setParams}
+          users={users || []}
+        />
+        {error ? (
+          <Typography.Text type="danger">{error.message}</Typography.Text>
+        ) : null}
+        <List dataSource={list || []} users={users || []} loading={isLoading} />
+      </CssContainer>
+    </div>
   );
 };
 

@@ -45,3 +45,27 @@ export const useDebounce = <T>(value: T, delay: number) => {
   }, [value, delay]);
   return debounce;
 };
+
+// 自定义当前组件标题, 进入当前组件自动修正标题
+export const useDocumentTitle = (
+  title: string,
+  keepCurrentTitleOnUnmount: boolean = true
+) => {
+  // 使用useDocumentTitle之前的标题,即页面刚加载时的页面标题
+  const oldTitle = document.title;
+  console.log("渲染当前组件时的oldTitle", oldTitle);
+
+  // 将当前组件的标题修改为传入的标题
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
+
+  useEffect(() => {
+    return () => {
+      if (!keepCurrentTitleOnUnmount) {
+        console.log("卸载当前组件时的oldTitle", oldTitle);
+        document.title = oldTitle;
+      }
+    };
+  }, []);
+};
