@@ -51,9 +51,9 @@ export const useDocumentTitle = (
   title: string,
   keepCurrentTitleOnUnmount: boolean = true
 ) => {
+  //! 路由跳转时会出现bug吧~!!
   // 使用useDocumentTitle之前的标题,即页面刚加载时的页面标题
   const oldTitle = document.title;
-  console.log("渲染当前组件时的oldTitle", oldTitle);
 
   // 将当前组件的标题修改为传入的标题
   useEffect(() => {
@@ -63,7 +63,6 @@ export const useDocumentTitle = (
   useEffect(() => {
     return () => {
       if (!keepCurrentTitleOnUnmount) {
-        console.log("卸载当前组件时的oldTitle", oldTitle);
         document.title = oldTitle;
       }
     };

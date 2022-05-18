@@ -4,16 +4,19 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { loadServer, DevTools } from "jira-dev-tool";
 import { AppProvider } from "./context";
+import { BrowserRouter } from "react-router-dom";
 // 自定义antd的主题变量
 import "antd/dist/antd.less";
 
 loadServer(() =>
   ReactDOM.render(
     <React.StrictMode>
-      <AppProvider>
-        <DevTools />
-        <App />
-      </AppProvider>
+      <BrowserRouter>
+        <AppProvider>
+          <DevTools />
+          <App />
+        </AppProvider>
+      </BrowserRouter>
     </React.StrictMode>,
     document.getElementById("root")
   )

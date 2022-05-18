@@ -7,11 +7,30 @@ import styled from "@emotion/styled";
 import { Row } from "./components/lib";
 import { useAuth } from "./context/AuthContext";
 import { ProjectView } from "./views/projects";
+import { Project } from "./views/project";
 
 import { ReactComponent as SoftwareLogo } from "./assets/software-logo.svg";
 import { Button, Dropdown, Menu } from "antd";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const AuthorizedApp = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate("/projects");
+  }, []);
+
+  return (
+    <div>
+      <Container>
+        <Header />
+        <Main />
+      </Container>
+    </div>
+  );
+};
+
+const Header = () => {
   const { logout, user } = useAuth();
   const handelLogout = () => {
     logout();
@@ -29,21 +48,18 @@ const AuthorizedApp = () => {
       </Menu.Item>
     </Menu>
   );
-
   return (
-    <div>
-      <Container>
-        <PageHeader between={true}>
-          <HeaderLeft marginRight={true}>
-            {/* <img src={softwareLogo} alt="" /> */}
-            <SoftwareLogo width={"18rem"} color={"rgb(38,132,255)"} />
-            <h2>项目</h2>
-            <h2>用户</h2>
-          </HeaderLeft>
-          <HeaderRight>
-            <Dropdown overlay={menu}>
-              {/* 使用a标签时，需要使用合法的href链接，否则会报警告，为了绕开警告可以使用antd中的type为link的Button */}
-              {/* <a
+    <PageHeader between={true}>
+      <HeaderLeft marginRight={true}>
+        {/* <img src={softwareLogo} alt="" /> */}
+        <SoftwareLogo width={"18rem"} color={"rgb(38,132,255)"} />
+        <h2>项目</h2>
+        <h2>用户</h2>
+      </HeaderLeft>
+      <HeaderRight>
+        <Dropdown overlay={menu}>
+          {/* 使用a标签时，需要使用合法的href链接，否则会报警告，为了绕开警告可以使用antd中的type为link的Button */}
+          {/* <a
                 href=""
                 onClick={(e) => {
                   e.preventDefault();
@@ -51,15 +67,22 @@ const AuthorizedApp = () => {
               >
                 Hi, {user?.name}
               </a> */}
-              <Button type={"link"}>Hi, {user?.name}</Button>
-            </Dropdown>
-          </HeaderRight>
-        </PageHeader>
-        <PageMain>
-          <ProjectView />
-        </PageMain>
-      </Container>
-    </div>
+          <Button type={"link"}>Hi, {user?.name}</Button>
+        </Dropdown>
+      </HeaderRight>
+    </PageHeader>
+  );
+};
+
+const Main = () => {
+  return (
+    <PageMain>
+      <Routes>
+        <Route path="/projects" element={<ProjectView />} />
+        <Route path="/projects/:id" element={<Project />} />
+        <Route path="*" element={<Navigate to="/projects" />} />
+      </Routes>
+    </PageMain>
   );
 };
 

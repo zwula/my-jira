@@ -1,6 +1,7 @@
-import { Table, TableProps } from "antd";
+import { Divider, Table, TableProps } from "antd";
 import { User } from "../../auth-provider";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 
 export interface Project {
   created: number;
@@ -23,9 +24,12 @@ export const List = ({ users, ...props }: ComponentProps) => {
       columns={[
         {
           title: "项目名称",
-          dataIndex: "name",
+          // dataIndex: "name",
           key: "name",
           sorter: (a, b) => a.name.localeCompare(b.name),
+          render: (value, data, index) => {
+            return <Link to={value.id.toString()}>{value.name}</Link>;
+          },
         },
         {
           title: "负责人",
