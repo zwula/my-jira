@@ -13,12 +13,13 @@ import { ReactComponent as SoftwareLogo } from "./assets/software-logo.svg";
 import { Button, Dropdown, Menu } from "antd";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { resetRoute } from "./utils";
 
 const AuthorizedApp = () => {
-  const navigate = useNavigate();
-  useEffect(() => {
-    navigate("/projects");
-  }, []);
+  // const navigate = useNavigate();
+  // useEffect(() => {
+  //   navigate("/projects");
+  // }, []);
 
   return (
     <div>
@@ -52,7 +53,9 @@ const Header = () => {
     <PageHeader between={true}>
       <HeaderLeft marginRight={true}>
         {/* <img src={softwareLogo} alt="" /> */}
-        <SoftwareLogo width={"18rem"} color={"rgb(38,132,255)"} />
+        <Button type="link" onClick={resetRoute}>
+          <SoftwareLogo width={"18rem"} color={"rgb(38,132,255)"} />
+        </Button>
         <h2>项目</h2>
         <h2>用户</h2>
       </HeaderLeft>
@@ -78,9 +81,9 @@ const Main = () => {
   return (
     <PageMain>
       <Routes>
-        <Route path="/projects" element={<ProjectView />} />
-        <Route path="/projects/:id" element={<Project />} />
-        <Route path="*" element={<Navigate to="/projects" />} />
+        <Route path={"/projects"} element={<ProjectView />} />
+        <Route path={"/projects/:projectId/*"} element={<Project />} />
+        <Route path={"/*"} element={<Navigate to="/projects" />} />
       </Routes>
     </PageMain>
   );

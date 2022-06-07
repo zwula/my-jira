@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 // 删除对象中，属性值为 falsy 的属性 。
 
 // 判断真假值
@@ -52,8 +52,11 @@ export const useDocumentTitle = (
   keepCurrentTitleOnUnmount: boolean = true
 ) => {
   //! 路由跳转时会出现bug吧~!!
-  // 使用useDocumentTitle之前的标题,即页面刚加载时的页面标题
-  const oldTitle = document.title;
+  // 缓存旧标题，使用useDocumentTitle之前的标题,即页面刚加载时的页面标题
+  // const oldTitle = document.title;
+
+  // 路由跳转时,不会出现bug的版本~!!
+  const oldTitle = useRef(document.title).current;
 
   // 将当前组件的标题修改为传入的标题
   useEffect(() => {
@@ -68,3 +71,5 @@ export const useDocumentTitle = (
     };
   }, []);
 };
+
+export const resetRoute = () => (window.location.href = window.location.origin);
