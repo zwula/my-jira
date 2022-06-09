@@ -1,17 +1,19 @@
 /* @jsxImportSource @emotion/react */
-import { Form, Input, Select } from "antd";
+import { Form, Input } from "antd";
 import { User } from "../../auth-provider";
+import { UserSelect } from "../../components/UserSelect";
 
 interface componentProps {
   params: {
     name: string;
-    personId: string;
+    personId: number | undefined;
   };
   setParams: (params: componentProps["params"]) => void;
   users: User[];
 }
 
 export const SearchPanel = ({ params, setParams, users }: componentProps) => {
+  console.log("params", params);
   return (
     <Form layout="inline" css={{ marginBottom: "2rem" }}>
       <Form.Item>
@@ -24,22 +26,29 @@ export const SearchPanel = ({ params, setParams, users }: componentProps) => {
         />
       </Form.Item>
       <Form.Item>
-        <Select
+        <UserSelect
           value={params.personId}
           onChange={(value) => {
-            console.log("value", value);
             setParams({ ...params, personId: value });
           }}
+          defaultOptionText={"负责人"}
+        ></UserSelect>
+        {/* <Select
+          value={params.personId} // 设置默认值
+          onChange={(value) => {
+            setParams({ ...params, personId: value });
+          }}
+          options={users}
         >
           <Select.Option value={""}>负责人</Select.Option>
           {users.map((user, index) => {
             return (
-              <Select.Option value={user.id} key={index}>
+              <Select.Option value={user.id} key={user.id}>
                 {user.name}
               </Select.Option>
             );
           })}
-        </Select>
+        </Select> */}
       </Form.Item>
     </Form>
   );

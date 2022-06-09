@@ -1,4 +1,4 @@
-import { Divider, Table, TableProps } from "antd";
+import { Table, TableProps } from "antd";
 import { User } from "../../auth-provider";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
@@ -7,7 +7,7 @@ export interface Project {
   created: number;
   id: number;
   name: string;
-  personId: string | number;
+  personId: number;
   organization: string;
   ownerId: number;
 }
