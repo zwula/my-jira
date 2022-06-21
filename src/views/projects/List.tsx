@@ -1,27 +1,39 @@
 import { Table, TableProps } from "antd";
-import { User } from "../../auth-provider";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
-
-export interface Project {
-  created: number;
-  id: number;
-  name: string;
-  personId: number;
-  organization: string;
-  ownerId: number;
-}
+import { Collection } from "../../components/Collection";
+import { useEditProject } from "../../utils/use-project";
+import { Project, User } from "../../const";
 
 interface ComponentProps extends TableProps<Project> {
   users: User[];
 }
 
 export const List = ({ users, ...props }: ComponentProps) => {
+  const { mutate, ...result } = useEditProject();
+  const curry = (id: number) => {
+    return (pin: boolean) => {
+      mutate({ id, pin });
+    };
+  };
   return (
     <Table
       rowKey={"id"}
       pagination={false}
       columns={[
+        {
+          title: <Collection isChecked={true} disabled={true} />,
+          render: (value, project) => {
+            console.log("value", value);
+            console.log("project", project);
+            return (
+              <Collection
+                isChecked={project.pin}
+                onCheckedChange={curry(project.id)}
+              />
+            );
+          },
+        },
         {
           title: "项目名称",
           // dataIndex: "name",

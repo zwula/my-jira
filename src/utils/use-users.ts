@@ -1,5 +1,5 @@
-import { User } from "./../auth-provider";
 import { useEffect } from "react";
+import { User } from "../const";
 import { useHttpWithToken } from "./http";
 import { useAsync } from "./use-async";
 

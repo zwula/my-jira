@@ -4,20 +4,15 @@
         共享那些对于当前项目整体组件树而言是“全局”的数据,如权限验证token等,向所有被包裹的子组件(包括App根组件)传递需要传递的数据
 */
 
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useContext, useEffect } from "react";
 import * as auth from "../auth-provider";
-import { ErrorPage, LoadingPage } from "../components/lib";
+import { ErrorPage } from "../components/lib";
+import { User } from "../const";
 import { http } from "../utils/http";
 import { useAsync } from "../utils/use-async";
 
 const AuthContext = createContext<{
-  user: auth.User | null;
+  user: User | null;
   login: (info: auth.RegisterOrLoginInfo) => Promise<void>;
   register: (info: auth.RegisterOrLoginInfo) => Promise<void>;
   logout: () => Promise<void>;
@@ -46,9 +41,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     runAsync,
     isError,
     error,
-    isIdle,
-    isLoading,
-  } = useAsync<auth.User | null>();
+  } = useAsync<User | null>();
 
   const login = (info: auth.RegisterOrLoginInfo) => {
     // auth-provider中的login完成了对token的存储

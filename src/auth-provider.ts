@@ -11,14 +11,16 @@
     该文件主要是为了获取登录、注册时的token字段,并对其进行存储，且只有在登录、注册后localStorage中才会有token值，当用户推出登录后token值会被消除
 */
 
+import { User } from "./const";
+
 const baseUrl = process.env.REACT_APP_API_URL;
 const localStorageKey = "__auth_provider_token__";
 
-export interface User {
-  id: number;
-  name: string;
-  token: string;
-}
+// export interface User {
+//   id: number;
+//   name: string;
+//   token: string;
+// }
 
 export const getToken = () => {
   return window.localStorage.getItem(localStorageKey);

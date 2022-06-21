@@ -1,7 +1,7 @@
 /* @jsxImportSource @emotion/react */
 import { Form, Input } from "antd";
-import { User } from "../../auth-provider";
 import { UserSelect } from "../../components/UserSelect";
+import { User } from "../../const";
 
 interface componentProps {
   params: {
