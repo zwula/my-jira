@@ -7,13 +7,14 @@ import { Project, User } from "../../const";
 
 interface ComponentProps extends TableProps<Project> {
   users: User[];
+  refresh?: () => void;
 }
 
-export const List = ({ users, ...props }: ComponentProps) => {
+export const List = ({ users, refresh, ...props }: ComponentProps) => {
   const { mutate, ...result } = useEditProject();
   const curry = (id: number) => {
     return (pin: boolean) => {
-      mutate({ id, pin });
+      mutate({ id, pin }).then(refresh);
     };
   };
   return (

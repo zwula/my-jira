@@ -27,7 +27,7 @@ export const ProjectView = () => {
 
   const debounceParams = useDebounce(digitalizedParams, 500);
 
-  const { isLoading, error, data: list } = useProject(debounceParams);
+  const { isLoading, error, data: list, retry } = useProject(debounceParams);
   const { data: users } = useUsers();
 
   // 渲染数据
@@ -43,7 +43,12 @@ export const ProjectView = () => {
         {error ? (
           <Typography.Text type="danger">{error.message}</Typography.Text>
         ) : null}
-        <List dataSource={list || []} users={users || []} loading={isLoading} />
+        <List
+          dataSource={list || []}
+          users={users || []}
+          loading={isLoading}
+          refresh={retry}
+        />
       </CssContainer>
     </div>
   );

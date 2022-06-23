@@ -8,8 +8,12 @@ import { useAsync } from "./use-async";
 export const useProject = (params?: Partial<Project>) => {
   const request = useHttpWithToken();
   const { runAsync, ...results } = useAsync<Project[]>();
+  const fetchProjects = () =>
+    request("projects", {
+      data: cleanObject(params || {}),
+    });
   useEffect(() => {
-    runAsync(request("projects", { data: cleanObject(params || {}) }));
+    runAsync(fetchProjects(), { retry: fetchProjects });
   }, [params]);
 
   return results;
