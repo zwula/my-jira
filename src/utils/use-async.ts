@@ -1,3 +1,4 @@
+import { useIsMounted } from "./index";
 import { useState } from "react";
 // 统一管理 在发送异步请求 时，页面的loading和error状态
 
@@ -31,6 +32,7 @@ export const useAsync = <D>(
   const [retry, setRetry] = useState(() => () => {});
 
   const config = { ...defaultInitialConfig, ...initialConfig };
+  const mountedRef = useIsMounted();
 
   const setData = (data: D) =>
     setState({
@@ -62,12 +64,18 @@ export const useAsync = <D>(
     return (
       promise
         .then((data) => {
-          setData(data);
+          if (mountedRef.current) {
+            setData(data);
+          }
+          // setData(data);
           return data;
         })
         // catch会消化异常，如果不再次主动抛出，外面是接收不到异常的
         .catch((error) => {
-          setError(error);
+          if (mountedRef.current) {
+            setError(error);
+          }
+          // setError(error);
           if (config.throwError) {
             return Promise.reject(error);
           }
